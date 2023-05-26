@@ -1,0 +1,1325 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="IRIS" version="26" zv="IRIS for Windows (x86-64) 2023.1 (Build 229U)" ts="2023-05-26 15:22:57">
+<Routine name="ConcursoArtigos" type="MAC" languagemode="0" timestamp="66606,77024.0824204"><![CDATA[
+PopularGlobal() Public
+{
+	#Dim contadorLinha As %Integer = 0
+	For contadorLinha = 1 : 1 : 1000
+	{
+		#Dim linha			As %String	= ""
+		#Dim contatorColuna	As %Integer	= 0
+		For contatorColuna = 1 : 1 : 4
+		{
+			Set linha = $Get(linha) _ "^" _  $Replace($Replace("coluna Y linha X", "Y", contatorColuna), "X", contadorLinha)
+		}
+		Set ^CustomQueryTest(contadorLinha) = $Piece(linha, "^", 2, *)
+	}
+}
+
+TestOrder
+	Set qHandle		= "^CustomQueryTest"
+	Set qHandle(1)	= ""
+	Set indice		= $Order(@qHandle@(qHandle(1)))
+	Write $Get(@qHandle@(indice))
+]]></Routine>
+
+
+<Project name="Interopway_REST" LastModified="2023-05-26 13:22:23.5428827" Target="PopularGlobal^ConcursoArtigos" TargetType="2">
+  <Items>
+    <ProjectItem name="ConcursoArtigos.MAC" type="MAC"></ProjectItem>
+    <ProjectItem name="cjs.interopway.rest.bo.BaseRequest" type="CLS"></ProjectItem>
+    <ProjectItem name="cjs.interopway.rest.bo.BaseResponse" type="CLS"></ProjectItem>
+    <ProjectItem name="cjs.interopway.rest.bo.DeleteRequest" type="CLS"></ProjectItem>
+    <ProjectItem name="cjs.interopway.rest.bo.DeleteResponse" type="CLS"></ProjectItem>
+    <ProjectItem name="cjs.interopway.rest.bo.GetRequest" type="CLS"></ProjectItem>
+    <ProjectItem name="cjs.interopway.rest.bo.GetResponse" type="CLS"></ProjectItem>
+    <ProjectItem name="cjs.interopway.rest.bo.Operation" type="CLS"></ProjectItem>
+    <ProjectItem name="cjs.interopway.rest.bo.PatchRequest" type="CLS"></ProjectItem>
+    <ProjectItem name="cjs.interopway.rest.bo.PatchResponse" type="CLS"></ProjectItem>
+    <ProjectItem name="cjs.interopway.rest.bo.PostRequest" type="CLS"></ProjectItem>
+    <ProjectItem name="cjs.interopway.rest.bo.PostResponse" type="CLS"></ProjectItem>
+    <ProjectItem name="cjs.interopway.rest.bo.PutRequest" type="CLS"></ProjectItem>
+    <ProjectItem name="cjs.interopway.rest.bo.PutResponse" type="CLS"></ProjectItem>
+    <ProjectItem name="cjs.interopway.rest.dto.Base" type="CLS"></ProjectItem>
+    <ProjectItem name="cjs.interopway.rest.dto.Request" type="CLS"></ProjectItem>
+    <ProjectItem name="cjs.interopway.rest.dto.Response" type="CLS"></ProjectItem>
+    <ProjectItem name="cjs.interopway.rest.samples.InteropProducion" type="CLS"></ProjectItem>
+    <ProjectItem name="cjs.interopway.rest.samples.bo.DeleteUserRequest" type="CLS"></ProjectItem>
+    <ProjectItem name="cjs.interopway.rest.samples.bo.DeleteUserResponse" type="CLS"></ProjectItem>
+    <ProjectItem name="cjs.interopway.rest.samples.bo.GetUserRequest" type="CLS"></ProjectItem>
+    <ProjectItem name="cjs.interopway.rest.samples.bo.GetUserResponse" type="CLS"></ProjectItem>
+    <ProjectItem name="cjs.interopway.rest.samples.bo.GetUsertResponse" type="CLS"></ProjectItem>
+    <ProjectItem name="cjs.interopway.rest.samples.bo.PatchUserRequest" type="CLS"></ProjectItem>
+    <ProjectItem name="cjs.interopway.rest.samples.bo.PatchUserResponse" type="CLS"></ProjectItem>
+    <ProjectItem name="cjs.interopway.rest.samples.bo.PostUserRequest" type="CLS"></ProjectItem>
+    <ProjectItem name="cjs.interopway.rest.samples.bo.PostUserResponse" type="CLS"></ProjectItem>
+    <ProjectItem name="cjs.interopway.rest.samples.bo.PutUserRequest" type="CLS"></ProjectItem>
+    <ProjectItem name="cjs.interopway.rest.samples.bo.PutUserResponse" type="CLS"></ProjectItem>
+    <ProjectItem name="cjs.interopway.rest.samples.bs.CallRestService" type="CLS"></ProjectItem>
+    <ProjectItem name="cjs.interopway.rest.tests.InteropProduction" type="CLS"></ProjectItem>
+  </Items>
+</Project>
+
+
+<Class name="cjs.interopway.rest.bo.BaseRequest">
+<Description><![CDATA[
+<p style='text-align: justify;'>
+	<b>2020-06-17 - Cristiano José da Silva</b><br/>
+	Base request to the Business Operation <class>cjs.interopway.rest.bo.Operation</class><br/>
+	This class can not be instantiated. Use one of the following subclasses:<br>
+	<ul>
+		<li><class>cjs.interopway.rest.bo.DeleteRequest</class> - To call a REST endpoint using HTTP DELETE<li>
+        <li><class>cjs.interopway.rest.bo.GetRequest</class> - To call a REST endpoint using HTTP GET<li>		
+        <li><class>cjs.interopway.rest.bo.PatchRequest</class> - To call a REST endpoint using HTTP PATCH<li>
+		<li><class>cjs.interopway.rest.bo.PostRequest</class> - To call a REST endpoint using HTTP POST<li>
+		<li><class>cjs.interopway.rest.bo.PutRequest</class> - To call a REST endpoint using HTTP PUT<li>
+	</ul>
+</p>]]></Description>
+<Abstract>1</Abstract>
+<Super>%Persistent,Ens.Request</Super>
+<TimeChanged>66599,40226.1289938</TimeChanged>
+<TimeCreated>66599,40226.1289938</TimeCreated>
+
+<Parameter name="RESPONSECLASSNAME">
+<Type>STRING</Type>
+<Default>cjs.interopway.rest.BaseResponse</Default>
+</Parameter>
+
+<Property name="RequestDTO">
+<Type>cjs.interopway.rest.dto.Request</Type>
+</Property>
+
+<Storage name="Default">
+<Type>%Storage.Persistent</Type>
+<DataLocation>^cjs.interopway6BF.BaseRequestD</DataLocation>
+<DefaultData>BaseRequestDefaultData</DefaultData>
+<IdLocation>^cjs.interopway6BF.BaseRequestD</IdLocation>
+<IndexLocation>^cjs.interopway6BF.BaseRequestI</IndexLocation>
+<StreamLocation>^cjs.interopway6BF.BaseRequestS</StreamLocation>
+<Data name="BaseRequestDefaultData">
+<Value name="1">
+<Value>%%CLASSNAME</Value>
+</Value>
+<Value name="2">
+<Value>RequestDTO</Value>
+</Value>
+</Data>
+</Storage>
+</Class>
+
+
+<Class name="cjs.interopway.rest.bo.BaseResponse">
+<Description><![CDATA[
+<p style='text-align: justify;'>
+	<b>2020-06-17 - Cristiano José da Silva</b><br/>
+	Base response to the Business Operation <class>cjs.interopway.rest.bo.Operation</class><br/>
+	This class can not be instantiated. Use one of the following subclasses:<br>
+	<ul>
+		<li><class>cjs.interopway.rest.bo.DeleteResponse</class> - Response of a call REST using HTTP DELETE<li>
+        <li><class>cjs.interopway.rest.bo.GetResponse</class> - Response of a call REST using HTTP GET<li>		
+        <li><class>cjs.interopway.rest.bo.PatchResponse</class> - Response of a call REST using HTTP PATCH<li>
+		<li><class>cjs.interopway.rest.bo.PostResponse</class> - Response of a call REST using HTTP POST<li>
+		<li><class>cjs.interopway.rest.bo.PutResponse</class> - Response of a call REST using HTTP PUT<li>
+	</ul>
+</p>]]></Description>
+<Super>%Persistent,Ens.Response</Super>
+<TimeChanged>66599,40226.1841005</TimeChanged>
+<TimeCreated>66599,40226.1841005</TimeCreated>
+
+<Property name="ResponseDTO">
+<Type>cjs.interopway.rest.dto.Response</Type>
+</Property>
+
+<Method name="DoSpecifAction">
+<Description>
+Subclass responsablity</Description>
+<FormalSpec>args...</FormalSpec>
+</Method>
+
+<Storage name="Default">
+<Type>%Storage.Persistent</Type>
+<DataLocation>^cjs.interopway6BF.BaseResponseD</DataLocation>
+<DefaultData>BaseResponseDefaultData</DefaultData>
+<IdLocation>^cjs.interopway6BF.BaseResponseD</IdLocation>
+<IndexLocation>^cjs.interopway6BF.BaseResponseI</IndexLocation>
+<StreamLocation>^cjs.interopway6BF.BaseResponseS</StreamLocation>
+<Data name="BaseResponseDefaultData">
+<Value name="1">
+<Value>%%CLASSNAME</Value>
+</Value>
+<Value name="2">
+<Value>ResponseDTO</Value>
+</Value>
+</Data>
+</Storage>
+</Class>
+
+
+<Class name="cjs.interopway.rest.bo.DeleteRequest">
+<Super>%Persistent,cjs.interopway.rest.bo.BaseRequest</Super>
+<TimeChanged>66599,40226.1364325</TimeChanged>
+<TimeCreated>66599,40226.1364325</TimeCreated>
+
+<Parameter name="RESPONSECLASSNAME">
+<Type>STRING</Type>
+<Default>cjs.interopway.rest.bo.DeleteResponse</Default>
+</Parameter>
+
+<Storage name="Default">
+<Type>%Storage.Persistent</Type>
+<DataLocation>^cjs.interopwa6BF.DeleteRequestD</DataLocation>
+<DefaultData>DeleteRequestDefaultData</DefaultData>
+<IdLocation>^cjs.interopwa6BF.DeleteRequestD</IdLocation>
+<IndexLocation>^cjs.interopwa6BF.DeleteRequestI</IndexLocation>
+<StreamLocation>^cjs.interopwa6BF.DeleteRequestS</StreamLocation>
+<Data name="DeleteRequestDefaultData">
+<Value name="1">
+<Value>%%CLASSNAME</Value>
+</Value>
+<Value name="2">
+<Value>RequestDTO</Value>
+</Value>
+</Data>
+</Storage>
+</Class>
+
+
+<Class name="cjs.interopway.rest.bo.DeleteResponse">
+<Super>%Persistent,cjs.interopway.rest.bo.BaseResponse</Super>
+<TimeChanged>66599,40226.1304208</TimeChanged>
+<TimeCreated>66599,40226.1304208</TimeCreated>
+
+<Storage name="Default">
+<Type>%Storage.Persistent</Type>
+<DataLocation>^cjs.interopw6BF.DeleteResponseD</DataLocation>
+<DefaultData>DeleteResponseDefaultData</DefaultData>
+<IdLocation>^cjs.interopw6BF.DeleteResponseD</IdLocation>
+<IndexLocation>^cjs.interopw6BF.DeleteResponseI</IndexLocation>
+<StreamLocation>^cjs.interopw6BF.DeleteResponseS</StreamLocation>
+<Data name="DeleteResponseDefaultData">
+<Value name="1">
+<Value>%%CLASSNAME</Value>
+</Value>
+<Value name="2">
+<Value>ResponseDTO</Value>
+</Value>
+</Data>
+</Storage>
+</Class>
+
+
+<Class name="cjs.interopway.rest.bo.GetRequest">
+<Super>%Persistent,cjs.interopway.rest.bo.BaseRequest</Super>
+<TimeChanged>66599,40226.1458562</TimeChanged>
+<TimeCreated>66599,40226.1458562</TimeCreated>
+
+<Parameter name="RESPONSECLASSNAME">
+<Type>STRING</Type>
+<Default>cjs.interopway.rest.bo.GetResponse</Default>
+</Parameter>
+
+<Storage name="Default">
+<Type>%Storage.Persistent</Type>
+<DataLocation>^cjs.interopway.r6BF.GetRequestD</DataLocation>
+<DefaultData>GetRequestDefaultData</DefaultData>
+<IdLocation>^cjs.interopway.r6BF.GetRequestD</IdLocation>
+<IndexLocation>^cjs.interopway.r6BF.GetRequestI</IndexLocation>
+<StreamLocation>^cjs.interopway.r6BF.GetRequestS</StreamLocation>
+<Data name="GetRequestDefaultData">
+<Value name="1">
+<Value>%%CLASSNAME</Value>
+</Value>
+<Value name="2">
+<Value>RequestDTO</Value>
+</Value>
+</Data>
+</Storage>
+</Class>
+
+
+<Class name="cjs.interopway.rest.bo.GetResponse">
+<Super>%Persistent,cjs.interopway.rest.bo.BaseResponse</Super>
+<TimeChanged>66599,40226.1591888</TimeChanged>
+<TimeCreated>66599,40226.1591888</TimeCreated>
+
+<Method name="DoSpecifAction">
+<Description>
+Subclass responsablity</Description>
+<FormalSpec>pArgs...</FormalSpec>
+<Implementation><![CDATA[	return
+]]></Implementation>
+</Method>
+
+<Storage name="Default">
+<Type>%Storage.Persistent</Type>
+<DataLocation>^cjs.interopway6BF.GetResponseD</DataLocation>
+<DefaultData>GetResponseDefaultData</DefaultData>
+<IdLocation>^cjs.interopway6BF.GetResponseD</IdLocation>
+<IndexLocation>^cjs.interopway6BF.GetResponseI</IndexLocation>
+<StreamLocation>^cjs.interopway6BF.GetResponseS</StreamLocation>
+<Data name="GetResponseDefaultData">
+<Value name="1">
+<Value>%%CLASSNAME</Value>
+</Value>
+<Value name="2">
+<Value>ResponseDTO</Value>
+</Value>
+</Data>
+</Storage>
+</Class>
+
+
+<Class name="cjs.interopway.rest.bo.Operation">
+<Super>EnsLib.REST.Operation</Super>
+<TimeChanged>66606,69592.9455448</TimeChanged>
+<TimeCreated>66599,40226.5594639</TimeCreated>
+
+<Parameter name="ADAPTER">
+<Type>STRING</Type>
+<Default>EnsLib.HTTP.OutboundAdapter</Default>
+</Parameter>
+
+<Property name="Adapter">
+<Type>EnsLib.HTTP.OutboundAdapter</Type>
+</Property>
+
+<Method name="Delete">
+<Description>
+Execute a HTTP DELETE</Description>
+<FormalSpec>request:cjs.interopway.rest.bo.DeleteRequest,*response:cjs.interopway.rest.bo.DeleteResponse</FormalSpec>
+<ReturnType>%Status</ReturnType>
+<Implementation><![CDATA[	Return ..CallEndPoint("DELETE", request, .response)
+]]></Implementation>
+</Method>
+
+<Method name="Get">
+<Description>
+Execute a HTTP GET</Description>
+<FormalSpec>request:cjs.interopway.rest.bo.GetRequest,*response:cjs.interopway.rest.bo.GetResponse</FormalSpec>
+<ReturnType>%Status</ReturnType>
+<Implementation><![CDATA[	Return ..CallEndPoint("GET", request, .response)
+]]></Implementation>
+</Method>
+
+<Method name="Patch">
+<Description>
+Execute a HTTP PATCH</Description>
+<FormalSpec>request:cjs.interopway.rest.bo.PatchRequest,*response:cjs.interopway.rest.bo.PatchResponse</FormalSpec>
+<ReturnType>%Status</ReturnType>
+<Implementation><![CDATA[	Return ..CallEndPoint("PATCH", request, .response)
+]]></Implementation>
+</Method>
+
+<Method name="Post">
+<Description>
+Execute a HTTP POST</Description>
+<FormalSpec>request:cjs.interopway.rest.bo.PostRequest,*response:cjs.interopway.rest.bo.PostResponse</FormalSpec>
+<ReturnType>%Status</ReturnType>
+<Implementation><![CDATA[	Return ..CallEndPoint("POST", request, .response)
+]]></Implementation>
+</Method>
+
+<Method name="Put">
+<Description>
+Execute a HTTP PUT</Description>
+<FormalSpec>request:cjs.interopway.rest.bo.PutRequest,*response:cjs.interopway.rest.bo.PutResponse</FormalSpec>
+<ReturnType>%Status</ReturnType>
+<Implementation><![CDATA[	Return ..CallEndPoint("PUT", request, .response)
+]]></Implementation>
+</Method>
+
+<Method name="CallEndPoint">
+<Description>
+Call the REST endpoint according to the httpMethod</Description>
+<FormalSpec>httpMethod:%String,request:cjs.interopway.rest.bo.BaseRequest,*response:cjs.interopway.rest.bo.BaseResponse</FormalSpec>
+<Private>1</Private>
+<ReturnType>%Status</ReturnType>
+<Implementation><![CDATA[
+	#Dim statusCode	As %Status						= $System.Status.OK()
+	#Dim exception	As %Exception.StatusException	= ""
+	Try
+	{
+		Do request.NewResponse(.response)
+		Do ..BeforeCallEndPoint(request)
+		//
+		#Dim requestDTO			As cjs.interopway.rest.dto.Request	= request.RequestDTO
+		#Dim responseDTO		As cjs.interopway.rest.dto.Response	= ##Class(cjs.interopway.rest.dto.Response).%New()
+		#Dim httpRequestBody	As %String							= 1
+		#Dim httpRequest		As %Net.HttpRequest					= ..GetHttpRequest(requestDTO.Headers)
+		#Dim httpResponse		As %Net.HttpResponse				= ""
+		//
+		Set response.ResponseDTO		= responseDTO
+		Set httpRequestBody(1)			= request.RequestDTO.Body
+		Set responseDTO.InternalStatus	= ..Adapter.SendFormDataArray(.httpResponse, httpMethod, httpRequest , "", .httpRequestBody , requestDTO.URL)
+		If ($System.Status.IsError(responseDTO.InternalStatus)) 
+		{
+			$$$LOGSTATUS(statusCode)
+		}
+		If ($IsObject(httpResponse))
+		{
+			Set responseDTO.Headers		= ..GetResponseHeaders(httpResponse)
+			Set responseDTO.Body		= httpResponse.Data
+			Set responseDTO.HTTPStatus	= httpResponse.StatusCode
+		}
+		Do ..AfterCallEndPoint(request, .response)
+	}
+	Catch(exception)
+	{
+		Set responseDTO.InternalStatus	= exception.AsStatus()
+		Set statusCode					= responseDTO.InternalStatus
+	}
+	Return statusCode
+]]></Implementation>
+</Method>
+
+<Method name="GetResponseHeaders">
+<Description><![CDATA[
+Return a instance of <class><%ArrayOfDataTypes/class> with HTTP response headers]]></Description>
+<FormalSpec>httpResponse:%Net.HttpResponse</FormalSpec>
+<Private>1</Private>
+<ReturnType>%ArrayOfDataTypes</ReturnType>
+<Implementation><![CDATA[
+	#Dim headers	As %ArrayOfDataTypes	= ##Class(%ArrayOfDataTypes).%New()
+	#Dim headerName	As %String				= ""
+	While (1)
+	{
+		Set headerName = httpResponse.GetNextHeader(headerName)
+		If (headerName = "")
+		{
+			Quit
+		}
+		Do headers.SetAt(httpResponse.GetHeader(headerName), headerName)
+	}
+	Return headers
+]]></Implementation>
+</Method>
+
+<Method name="GetHttpRequest">
+<Description><![CDATA[
+Create an instance of <class>%Net.HttpRequest</class> with basic headers and set your headers as needed.]]></Description>
+<FormalSpec>headerArray:%ArrayOfDataTypes</FormalSpec>
+<Private>1</Private>
+<ReturnType>%Net.HttpRequest</ReturnType>
+<Implementation><![CDATA[
+	#Dim httpRequest	As %Net.HttpRequest	= ##Class(%Net.HttpRequest).%New()
+	#Dim header			As %String			= ""
+	#Dim indexHeaders	As %Integer			= 0
+	For indexHeaders = 1 : 1 : headerArray.Count()
+	{
+		#Dim value	As %String	= headerArray.GetNext(.header)
+		//
+		Do httpRequest.SetHeader(header, value)
+	}
+	Return httpRequest
+]]></Implementation>
+</Method>
+
+<Method name="BeforeCallEndPoint">
+<Description>
+Subclass responsibility, commom used to do login or other logic need befor call endpoint.</Description>
+<FormalSpec>request:Ens.Request</FormalSpec>
+<Private>1</Private>
+</Method>
+
+<Method name="AfterCallEndPoint">
+<Description>
+Subclass responsibility, commom used to liberate some resource like a token or to process response.</Description>
+<FormalSpec>request:Ens.Request,response:Ens.Response</FormalSpec>
+<Private>1</Private>
+</Method>
+
+<XData name="MessageMap">
+<Data><![CDATA[
+<MapItems>
+	<MapItem MessageType="cjs.interopway.rest.bo.GetRequest"> 
+		<Method>Get</Method>
+	</MapItem>
+	<MapItem MessageType="cjs.interopway.rest.bo.PostRequest"> 
+		<Method>Post</Method>
+	</MapItem>
+	<MapItem MessageType="cjs.interopway.rest.bo.PutRequest"> 
+		<Method>Put</Method>
+	</MapItem>
+	<MapItem MessageType="cjs.interopway.rest.bo.PatchRequest"> 
+		<Method>Patch</Method>
+	</MapItem>
+	<MapItem MessageType="cjs.interopway.rest.bo.DeleteRequest"> 
+		<Method>Delete</Method>
+	</MapItem>
+</MapItems>
+]]></Data>
+</XData>
+</Class>
+
+
+<Class name="cjs.interopway.rest.bo.PatchRequest">
+<Super>%Persistent,cjs.interopway.rest.bo.BaseRequest</Super>
+<TimeChanged>66599,40226.9513125</TimeChanged>
+<TimeCreated>66599,40226.9513125</TimeCreated>
+
+<Parameter name="RESPONSECLASSNAME">
+<Type>STRING</Type>
+<Default>cjs.interopway.rest.bo.PatchResponse</Default>
+</Parameter>
+
+<Storage name="Default">
+<Type>%Storage.Persistent</Type>
+<DataLocation>^cjs.interopway6BF.PatchRequestD</DataLocation>
+<DefaultData>PatchRequestDefaultData</DefaultData>
+<IdLocation>^cjs.interopway6BF.PatchRequestD</IdLocation>
+<IndexLocation>^cjs.interopway6BF.PatchRequestI</IndexLocation>
+<StreamLocation>^cjs.interopway6BF.PatchRequestS</StreamLocation>
+<Data name="PatchRequestDefaultData">
+<Value name="1">
+<Value>%%CLASSNAME</Value>
+</Value>
+<Value name="2">
+<Value>RequestDTO</Value>
+</Value>
+</Data>
+</Storage>
+</Class>
+
+
+<Class name="cjs.interopway.rest.bo.PatchResponse">
+<Super>%Persistent,cjs.interopway.rest.bo.BaseResponse</Super>
+<TimeChanged>66599,40226.4799525</TimeChanged>
+<TimeCreated>66599,40226.4799525</TimeCreated>
+
+<Storage name="Default">
+<Type>%Storage.Persistent</Type>
+<DataLocation>^cjs.interopwa6BF.PatchResponseD</DataLocation>
+<DefaultData>PatchResponseDefaultData</DefaultData>
+<IdLocation>^cjs.interopwa6BF.PatchResponseD</IdLocation>
+<IndexLocation>^cjs.interopwa6BF.PatchResponseI</IndexLocation>
+<StreamLocation>^cjs.interopwa6BF.PatchResponseS</StreamLocation>
+<Data name="PatchResponseDefaultData">
+<Value name="1">
+<Value>%%CLASSNAME</Value>
+</Value>
+<Value name="2">
+<Value>ResponseDTO</Value>
+</Value>
+</Data>
+</Storage>
+</Class>
+
+
+<Class name="cjs.interopway.rest.bo.PostRequest">
+<Super>%Persistent,cjs.interopway.rest.bo.BaseRequest</Super>
+<TimeChanged>66599,40228.2976507</TimeChanged>
+<TimeCreated>66599,40228.2976507</TimeCreated>
+
+<Parameter name="RESPONSECLASSNAME">
+<Type>STRING</Type>
+<Default>cjs.interopway.rest.bo.PostResponse</Default>
+</Parameter>
+
+<Storage name="Default">
+<Type>%Storage.Persistent</Type>
+<DataLocation>^cjs.interopway6BF.PostRequestD</DataLocation>
+<DefaultData>PostRequestDefaultData</DefaultData>
+<IdLocation>^cjs.interopway6BF.PostRequestD</IdLocation>
+<IndexLocation>^cjs.interopway6BF.PostRequestI</IndexLocation>
+<StreamLocation>^cjs.interopway6BF.PostRequestS</StreamLocation>
+<Data name="PostRequestDefaultData">
+<Value name="1">
+<Value>%%CLASSNAME</Value>
+</Value>
+<Value name="2">
+<Value>RequestDTO</Value>
+</Value>
+</Data>
+</Storage>
+</Class>
+
+
+<Class name="cjs.interopway.rest.bo.PostResponse">
+<Super>%Persistent,cjs.interopway.rest.bo.BaseResponse</Super>
+<TimeChanged>66599,40226.4584859</TimeChanged>
+<TimeCreated>66599,40226.4584859</TimeCreated>
+
+<Storage name="Default">
+<Type>%Storage.Persistent</Type>
+<DataLocation>^cjs.interopway6BF.PostResponseD</DataLocation>
+<DefaultData>PostResponseDefaultData</DefaultData>
+<IdLocation>^cjs.interopway6BF.PostResponseD</IdLocation>
+<IndexLocation>^cjs.interopway6BF.PostResponseI</IndexLocation>
+<StreamLocation>^cjs.interopway6BF.PostResponseS</StreamLocation>
+<Data name="PostResponseDefaultData">
+<Value name="1">
+<Value>%%CLASSNAME</Value>
+</Value>
+<Value name="2">
+<Value>ResponseDTO</Value>
+</Value>
+</Data>
+</Storage>
+</Class>
+
+
+<Class name="cjs.interopway.rest.bo.PutRequest">
+<Super>%Persistent,cjs.interopway.rest.bo.BaseRequest</Super>
+<TimeChanged>66599,40227.5887675</TimeChanged>
+<TimeCreated>66599,40227.5887675</TimeCreated>
+
+<Parameter name="RESPONSECLASSNAME">
+<Type>STRING</Type>
+<Default>cjs.interopway.rest.bo.PutResponse</Default>
+</Parameter>
+
+<Storage name="Default">
+<Type>%Storage.Persistent</Type>
+<DataLocation>^cjs.interopway.r6BF.PutRequestD</DataLocation>
+<DefaultData>PutRequestDefaultData</DefaultData>
+<IdLocation>^cjs.interopway.r6BF.PutRequestD</IdLocation>
+<IndexLocation>^cjs.interopway.r6BF.PutRequestI</IndexLocation>
+<StreamLocation>^cjs.interopway.r6BF.PutRequestS</StreamLocation>
+<Data name="PutRequestDefaultData">
+<Value name="1">
+<Value>%%CLASSNAME</Value>
+</Value>
+<Value name="2">
+<Value>RequestDTO</Value>
+</Value>
+</Data>
+</Storage>
+</Class>
+
+
+<Class name="cjs.interopway.rest.bo.PutResponse">
+<Super>%Persistent,cjs.interopway.rest.bo.BaseResponse</Super>
+<TimeChanged>66599,40228.2872762</TimeChanged>
+<TimeCreated>66599,40228.2872762</TimeCreated>
+
+<Storage name="Default">
+<Type>%Storage.Persistent</Type>
+<DataLocation>^cjs.interopway6BF.PutResponseD</DataLocation>
+<DefaultData>PutResponseDefaultData</DefaultData>
+<IdLocation>^cjs.interopway6BF.PutResponseD</IdLocation>
+<IndexLocation>^cjs.interopway6BF.PutResponseI</IndexLocation>
+<StreamLocation>^cjs.interopway6BF.PutResponseS</StreamLocation>
+<Data name="PutResponseDefaultData">
+<Value name="1">
+<Value>%%CLASSNAME</Value>
+</Value>
+<Value name="2">
+<Value>ResponseDTO</Value>
+</Value>
+</Data>
+</Storage>
+</Class>
+
+
+<Class name="cjs.interopway.rest.dto.Base">
+<Description><![CDATA[
+<p style='text-align: justify;'>
+  <b>2022-03-26 - Cristiano José da Silva</b><br/>
+  Base class with comom properties to dto objects used by the messages to call REST end points.
+</p>]]></Description>
+<Abstract>1</Abstract>
+<TimeChanged>66620,51467.5872235</TimeChanged>
+<TimeCreated>66599,40226.9290715</TimeCreated>
+
+<Property name="Headers">
+<Description>
+HTTP Headers to send/receive to/from the end point.</Description>
+<Type>%String</Type>
+<Collection>array</Collection>
+<Parameter name="MAXLEN"/>
+</Property>
+
+<Property name="Body">
+<Description>
+JSON Stream with the content to send/receive to/from the end point.</Description>
+<Type>%Stream.GlobalCharacter</Type>
+</Property>
+
+<Property name="JSONPayload">
+<Description><![CDATA[
+Calculated property to do a simple way to access the <property>Body</property> via a instance 
+of <class>%DynamicAbstractObject</class> because could be a JSON Objec or a JSON array.]]></Description>
+<Type>%DynamicAbstractObject</Type>
+<Transient>1</Transient>
+<Parameter name="XMLPROJECTION" value="NONE"/>
+</Property>
+
+<Method name="JSONPayloadGet">
+<Description><![CDATA[
+<p>
+Getter Method to the property <property>JSONPayload</property>, read the raw content of the property <property>Body</property> and returns a 
+instance of <class>%DynamicAbstractObject</class>
+</p>]]></Description>
+<ReturnType>%DynamicAbstractObject</ReturnType>
+<Implementation><![CDATA[
+	#Dim exception	As %Exception.General	= ""
+	Try
+	{
+		If (..Body.Size = 0)
+		{
+			Return ""
+		}
+		If ('$IsObject(i%JSONPayload))
+		{
+			Set i%JSONPayload = {}.%FromJSON(..Body)
+		}
+		Return i%JSONPayload
+	}
+	Catch (exception)
+	{
+		Return ""
+	}
+	Return ""
+]]></Implementation>
+</Method>
+
+<Method name="JSONPayloadSet">
+<Description><![CDATA[
+<p>
+Setter Method to the property <property>JSONPayload</property>, export JSON structure the property <property>Body</property>.
+</p>]]></Description>
+<FormalSpec>jsonPayload:%DynamicAbstractObject</FormalSpec>
+<ReturnType>%Status</ReturnType>
+<Implementation><![CDATA[
+	#Dim exception	As %Exception.General	= ""
+	#Dim statusCode	As %Status				= $System.Status.OK()
+	Try
+	{
+		Set i%JSONPayload	= jsonPayload
+		Set statusCode		= jsonPayload.%ToJSON(..Body)
+	}
+	Catch (exception)
+	{
+		Return exception.AsStatus()
+	}
+	Return statusCode
+]]></Implementation>
+</Method>
+</Class>
+
+
+<Class name="cjs.interopway.rest.dto.Request">
+<Description><![CDATA[
+<p>
+<class>%SerialObject</class> to be used by the requests to be send to the Business Operations
+</p>]]></Description>
+<Super>%SerialObject,%XML.Adaptor,cjs.interopway.rest.dto.Base</Super>
+<TimeChanged>66599,40228.271049</TimeChanged>
+<TimeCreated>66599,40228.271049</TimeCreated>
+
+<Property name="URL">
+<Description>
+URL to the end point to be called by the Business Operation.</Description>
+<Type>%String</Type>
+<Parameter name="MAXLEN"/>
+</Property>
+
+<Storage name="Default">
+<Type>%Storage.Serial</Type>
+<State>RequestState</State>
+<StreamLocation>^cjs.interopway.res6DED.RequestS</StreamLocation>
+<Data name="RequestState">
+<Value name="1">
+<Value>Headers</Value>
+</Value>
+<Value name="2">
+<Value>Body</Value>
+</Value>
+<Value name="3">
+<Value>URL</Value>
+</Value>
+</Data>
+</Storage>
+</Class>
+
+
+<Class name="cjs.interopway.rest.dto.Response">
+<IncludeCode>Ensemble</IncludeCode>
+<Super>%SerialObject,%XML.Adaptor,cjs.interopway.rest.dto.Base</Super>
+<TimeChanged>66599,40226.4643277</TimeChanged>
+<TimeCreated>66599,40226.4643277</TimeCreated>
+
+<Property name="HTTPStatus">
+<Description>
+HTTP Status code sent by the called endpoint.</Description>
+<Type>%String</Type>
+</Property>
+
+<Property name="InternalStatus">
+<Type>%Status</Type>
+<InitialExpression>$System.Status.OK()</InitialExpression>
+<Parameter name="XMLPROJECTION" value="NONE"/>
+</Property>
+
+<Property name="InternalStatusText">
+<Description><![CDATA[
+<class>%Status</class> result of the call to the endpoint.
+Text data of <property>InternalStatus</property>]]></Description>
+<Type>%String</Type>
+<Calculated>1</Calculated>
+<SqlComputeCode> Set {InternalStatusText} = ##Class(cjs.interopway.rest.dto.Response).GetInternalStatusText({InternalStatus})</SqlComputeCode>
+<SqlComputed>1</SqlComputed>
+<Transient>1</Transient>
+<Parameter name="MAXLEN"/>
+</Property>
+
+<Method name="InternalStatusTextGet">
+<ReturnType>%String</ReturnType>
+<Implementation><![CDATA[    Return ..GetInternalStatusText(..InternalStatus)
+]]></Implementation>
+</Method>
+
+<Method name="GetInternalStatusText">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>statusCode:%Status</FormalSpec>
+<ReturnType>%String</ReturnType>
+<Implementation><![CDATA[
+    If ($System.Status.IsError(statusCode))
+    {
+        Return $System.Status.GetErrorText(statusCode)
+    }
+    Return "OK"
+]]></Implementation>
+</Method>
+
+<Storage name="Default">
+<Type>%Storage.Serial</Type>
+<State>ResponseState</State>
+<StreamLocation>^cjs.interopway.re6DED.ResponseS</StreamLocation>
+<Data name="ResponseState">
+<Value name="1">
+<Value>HTTPStatus</Value>
+</Value>
+<Value name="2">
+<Value>Body</Value>
+</Value>
+<Value name="3">
+<Value>Headers</Value>
+</Value>
+<Value name="4">
+<Value>InternalStatus</Value>
+</Value>
+</Data>
+</Storage>
+</Class>
+
+
+<Class name="cjs.interopway.rest.samples.InteropProducion">
+<Description><![CDATA[
+<p >
+  <b>2023-05-12 - Cristiano José da Silva</b><br/>
+  Production that shows how to use the REST classes with few lines of code e and 
+  configurations, to achieve interoperability with external REST APIs.
+</p>]]></Description>
+<Super>Ens.Production</Super>
+<TimeChanged>66606,65657.1650305</TimeChanged>
+<TimeCreated>66606,61698.6763077</TimeCreated>
+
+<XData name="ProductionDefinition">
+<Data><![CDATA[
+<Production Name="cjs.interopway.rest.samples.InteropProducion" TestingEnabled="true" LogGeneralTraceEvents="true">
+  <Description></Description>
+  <ActorPoolSize>1</ActorPoolSize>
+  <Item Name="Reqres REST Operation" Category="REST" ClassName="cjs.interopway.rest.bo.Operation" PoolSize="1" Enabled="true" Foreground="false" Comment="" LogTraceEvents="false" Schedule="">
+    <Setting Target="Adapter" Name="SSLConfig">ISC.FeatureTracker.SSL.Config</Setting>
+  </Item>
+  <Item Name="Call Reqres Service" Category="REST" ClassName="cjs.interopway.rest.samples.bs.CallRestService" PoolSize="0" Enabled="true" Foreground="false" Comment="" LogTraceEvents="false" Schedule="">
+  </Item>
+</Production>
+]]></Data>
+</XData>
+</Class>
+
+
+<Class name="cjs.interopway.rest.samples.bo.DeleteUserRequest">
+<Super>cjs.interopway.rest.bo.DeleteRequest</Super>
+<TimeChanged>66620,43580.5766756</TimeChanged>
+<TimeCreated>66606,64498.0945911</TimeCreated>
+
+<Parameter name="RESPONSECLASSNAME">
+<Type>STRING</Type>
+<Default>cjs.interopway.rest.samples.bo.DeleteUserResponse</Default>
+</Parameter>
+
+<Storage name="Default">
+<Type>%Storage.Persistent</Type>
+</Storage>
+</Class>
+
+
+<Class name="cjs.interopway.rest.samples.bo.DeleteUserResponse">
+<Super>%Persistent,cjs.interopway.rest.bo.PatchResponse</Super>
+<TimeChanged>66606,65260.4313901</TimeChanged>
+<TimeCreated>66606,64498.0945911</TimeCreated>
+
+<Storage name="Default">
+<Type>%Storage.Persistent</Type>
+<DataLocation>^cjs.interoD7D1.DeleteUserRC17AD</DataLocation>
+<DefaultData>DeleteUserResponseDefaultData</DefaultData>
+<IdLocation>^cjs.interoD7D1.DeleteUserRC17AD</IdLocation>
+<IndexLocation>^cjs.interoD7D1.DeleteUserRC17AI</IndexLocation>
+<StreamLocation>^cjs.interoD7D1.DeleteUserRC17AS</StreamLocation>
+<Data name="DeleteUserResponseDefaultData">
+<Structure>listnode</Structure>
+<Subscript/>
+<Value name="1">
+<Value>%%CLASSNAME</Value>
+</Value>
+<Value name="2">
+<Value>ResponseDTO</Value>
+</Value>
+</Data>
+</Storage>
+</Class>
+
+
+<Class name="cjs.interopway.rest.samples.bo.GetUserRequest">
+<Super>cjs.interopway.rest.bo.GetRequest</Super>
+<TimeChanged>66606,64762.6079034</TimeChanged>
+<TimeCreated>66606,64498.0945911</TimeCreated>
+
+<Parameter name="RESPONSECLASSNAME">
+<Type>STRING</Type>
+<Default>cjs.interopway.rest.samples.bo.GetUserResponse</Default>
+</Parameter>
+
+<Storage name="Default">
+<Type>%Storage.Persistent</Type>
+</Storage>
+</Class>
+
+
+<Class name="cjs.interopway.rest.samples.bo.GetUserResponse">
+<Super>%Persistent,cjs.interopway.rest.bo.GetResponse</Super>
+<TimeChanged>66606,69519.2860843</TimeChanged>
+<TimeCreated>66606,64498.0945911</TimeCreated>
+
+<Storage name="Default">
+<Type>%Storage.Persistent</Type>
+<DataLocation>^cjs.interoD7D1.GetUserResp5FB7D</DataLocation>
+<DefaultData>GetUserResponseDefaultData</DefaultData>
+<IdLocation>^cjs.interoD7D1.GetUserResp5FB7D</IdLocation>
+<IndexLocation>^cjs.interoD7D1.GetUserResp5FB7I</IndexLocation>
+<StreamLocation>^cjs.interoD7D1.GetUserResp5FB7S</StreamLocation>
+<Data name="GetUserResponseDefaultData">
+<Structure>listnode</Structure>
+<Subscript/>
+<Value name="1">
+<Value>%%CLASSNAME</Value>
+</Value>
+<Value name="2">
+<Value>ResponseDTO</Value>
+</Value>
+</Data>
+</Storage>
+</Class>
+
+
+<Class name="cjs.interopway.rest.samples.bo.PatchUserRequest">
+<Super>cjs.interopway.rest.bo.PatchRequest</Super>
+<TimeChanged>66606,65318.726433</TimeChanged>
+<TimeCreated>66606,64498.0945911</TimeCreated>
+
+<Parameter name="RESPONSECLASSNAME">
+<Type>STRING</Type>
+<Default>cjs.interopway.rest.samples.bo.PatchUserResponse</Default>
+</Parameter>
+
+<Storage name="Default">
+<Type>%Storage.Persistent</Type>
+</Storage>
+</Class>
+
+
+<Class name="cjs.interopway.rest.samples.bo.PatchUserResponse">
+<Super>%Persistent,cjs.interopway.rest.bo.PatchResponse</Super>
+<TimeChanged>66606,65240.6492024</TimeChanged>
+<TimeCreated>66606,64498.0945911</TimeCreated>
+
+<Storage name="Default">
+<Type>%Storage.Persistent</Type>
+<DataLocation>^cjs.interoD7D1.PatchUserReB938D</DataLocation>
+<DefaultData>PatchUserResponseDefaultData</DefaultData>
+<IdLocation>^cjs.interoD7D1.PatchUserReB938D</IdLocation>
+<IndexLocation>^cjs.interoD7D1.PatchUserReB938I</IndexLocation>
+<StreamLocation>^cjs.interoD7D1.PatchUserReB938S</StreamLocation>
+<Data name="PatchUserResponseDefaultData">
+<Structure>listnode</Structure>
+<Subscript/>
+<Value name="1">
+<Value>%%CLASSNAME</Value>
+</Value>
+<Value name="2">
+<Value>ResponseDTO</Value>
+</Value>
+</Data>
+</Storage>
+</Class>
+
+
+<Class name="cjs.interopway.rest.samples.bo.PostUserRequest">
+<Super>cjs.interopway.rest.bo.PostRequest</Super>
+<TimeChanged>66606,64663.5990517</TimeChanged>
+<TimeCreated>66606,64498.0945911</TimeCreated>
+
+<Parameter name="RESPONSECLASSNAME">
+<Type>STRING</Type>
+<Default>cjs.interopway.rest.samples.bo.PostUserResponse</Default>
+</Parameter>
+
+<Storage name="Default">
+<Type>%Storage.Persistent</Type>
+</Storage>
+</Class>
+
+
+<Class name="cjs.interopway.rest.samples.bo.PostUserResponse">
+<Super>%Persistent,cjs.interopway.rest.bo.PostResponse</Super>
+<TimeChanged>66606,64866.4345039</TimeChanged>
+<TimeCreated>66606,64498.0945911</TimeCreated>
+
+<Storage name="Default">
+<Type>%Storage.Persistent</Type>
+<DataLocation>^cjs.interoD7D1.PostUserResABB4D</DataLocation>
+<DefaultData>PostUserResponseDefaultData</DefaultData>
+<IdLocation>^cjs.interoD7D1.PostUserResABB4D</IdLocation>
+<IndexLocation>^cjs.interoD7D1.PostUserResABB4I</IndexLocation>
+<StreamLocation>^cjs.interoD7D1.PostUserResABB4S</StreamLocation>
+<Data name="PostUserResponseDefaultData">
+<Value name="1">
+<Value>%%CLASSNAME</Value>
+</Value>
+<Value name="2">
+<Value>RequestDTO</Value>
+</Value>
+<Value name="3">
+<Value>ResponseDTO</Value>
+</Value>
+</Data>
+</Storage>
+</Class>
+
+
+<Class name="cjs.interopway.rest.samples.bo.PutUserRequest">
+<Super>cjs.interopway.rest.bo.PutRequest</Super>
+<TimeChanged>66606,65342.1662823</TimeChanged>
+<TimeCreated>66606,64498.0945911</TimeCreated>
+
+<Parameter name="RESPONSECLASSNAME">
+<Type>STRING</Type>
+<Default>cjs.interopway.rest.samples.bo.PutUserResponse</Default>
+</Parameter>
+
+<Storage name="Default">
+<Type>%Storage.Persistent</Type>
+</Storage>
+</Class>
+
+
+<Class name="cjs.interopway.rest.samples.bo.PutUserResponse">
+<Super>%Persistent,cjs.interopway.rest.bo.PutResponse</Super>
+<TimeChanged>66606,65112.0342878</TimeChanged>
+<TimeCreated>66606,64498.0945911</TimeCreated>
+
+<Storage name="Default">
+<Type>%Storage.Persistent</Type>
+<DataLocation>^cjs.interoD7D1.PutUserResp81F1D</DataLocation>
+<DefaultData>PutUserResponseDefaultData</DefaultData>
+<IdLocation>^cjs.interoD7D1.PutUserResp81F1D</IdLocation>
+<IndexLocation>^cjs.interoD7D1.PutUserResp81F1I</IndexLocation>
+<StreamLocation>^cjs.interoD7D1.PutUserResp81F1S</StreamLocation>
+<Data name="PutUserResponseDefaultData">
+<Structure>listnode</Structure>
+<Subscript/>
+<Value name="1">
+<Value>%%CLASSNAME</Value>
+</Value>
+<Value name="2">
+<Value>ResponseDTO</Value>
+</Value>
+</Data>
+</Storage>
+</Class>
+
+
+<Class name="cjs.interopway.rest.samples.bs.CallRestService">
+<Description><![CDATA[
+<p style='text-align: justify;'>
+  <b>2023-05-12 - Cristiano José da Silva</b><br/>
+  Samples Business Service that call the Business Operation class <class>cjs.interopway.rest.bo.Operation</class>
+</p>]]></Description>
+<Super>Ens.BusinessService</Super>
+<TimeChanged>66606,64198.1344069</TimeChanged>
+<TimeCreated>66606,62828.8955525</TimeCreated>
+
+<Parameter name="SETTINGS">
+<Default>TargetBusinessHost</Default>
+</Parameter>
+
+<Parameter name="ADAPTER">
+<Description>
+The type of adapter used to communicate with external systems</Description>
+<Default>Ens.Adapter</Default>
+</Parameter>
+
+<Property name="Adapter">
+<Description>
+The adapter instance</Description>
+<Type>Ens.Adapter</Type>
+</Property>
+
+<Property name="TargetBusinessHost">
+<Description>
+Name of Business Operation to Call.</Description>
+<Type>Ens.DataType.ConfigName</Type>
+</Property>
+
+<Method name="OnProcessInput">
+<Description>
+Call Business Operation </Description>
+<FormalSpec><![CDATA[input:cjs.interopway.rest.bo.BaseRequest,*output:cjs.interopway.rest.bo.BaseResponse,&pHint:%String]]></FormalSpec>
+<ReturnType>%Status</ReturnType>
+<Implementation><![CDATA[	Return ..SendRequestSync(..TargetBusinessHost, input, .output, 30)
+]]></Implementation>
+</Method>
+</Class>
+
+
+<Class name="cjs.interopway.rest.tests.InteropProduction">
+<Description><![CDATA[
+<p style='text-align: justify;'>
+	<b>2023-05-11 - Cristiano José da Silva</b><br/>
+	Tests set for Business Opeation class: <class>cjs.interopway.rest.bo.Operation</class>
+	<br/><br/>
+	The tests are executed aganist a test API: https://reqres.in/
+</p>]]></Description>
+<Super>%UnitTest.TestProduction</Super>
+<TimeChanged>66620,53382.9697209</TimeChanged>
+<TimeCreated>66606,62118.4311722</TimeCreated>
+
+<Parameter name="PRODUCTION">
+<Description>
+Class name of the production.  It must contain the production class name.</Description>
+<Type>STRING</Type>
+<Default>cjs.interopway.rest.samples.InteropProducion</Default>
+</Parameter>
+
+<Parameter name="TARGETOPERATION">
+<Description>
+Name of target Business Operation</Description>
+<Type>STRING</Type>
+<Default>Reqres REST Operation</Default>
+</Parameter>
+
+<Parameter name="APIURL">
+<Description>
+Base API URL</Description>
+<Type>STRING</Type>
+<Default>https://reqres.in/</Default>
+</Parameter>
+
+<Parameter name="USERENDPOINT">
+<Description>
+Endpoint para tratativa de usuário, é utilizda em todos os verbos, POST, GET, PUT, PATCH, DELETE</Description>
+<Type>STRING</Type>
+<Default>api/users</Default>
+</Parameter>
+
+<Parameter name="IDUSUARIO">
+<Description>
+Id do usuário a ser usado nos testes. É um número baixo porque a base se renova constantemente</Description>
+<Type>INTEGER</Type>
+<Default>1</Default>
+</Parameter>
+
+<Method name="OnBeforeAllTests">
+<Description><![CDATA[
+Run by <B>RunTest</B> once <a href="#OnBeforeAll">before any test methods</a> in the test class are run. Can be used to set up a 
+test environment that will be later cleaned up by <B>OnAfterAllTests</B>. 
+<br>NOTE: OnBeforeAllTests does not currently support skipping tests.  Calls to $$$AssertSkipped in
+OnBeforeAllTests may result in tests appearing to pass rather than being skipped.
+<br><br>Example: Setup and Cleanup of an environment: 
+<pre>
+Method OnBeforeAllTests() As %Status
+{
+	//do setup stuff here
+ 	set ^inputMessage = "input message"
+	quit $$$OK
+}
+Method OnAfterAllTests() As %Status
+{
+	//do clean up stuff here
+	kill ^inputMessage
+	quit $$$OK
+}</pre>
+]]></Description>
+<ReturnType>%Status</ReturnType>
+<Implementation><![CDATA[	Return ..IsProductionRunning()
+]]></Implementation>
+</Method>
+
+<Method name="TestGetUser">
+<Description>
+TestMethod for Business Operation Method Get</Description>
+<ReturnType>%Status</ReturnType>
+<Implementation><![CDATA[
+	#Dim request		As cjs.interopway.rest.bo.GetRequest	= ##Class(cjs.interopway.rest.bo.GetRequest).%New()
+	#Dim response		As cjs.interopway.rest.bo.GetResponse	= ""
+	#Dim requestDTO	As cjs.interopway.rest.dto.Request		= ##Class(cjs.interopway.rest.dto.Request).%New()
+	//
+	Set requestDTO.URL			= ..#APIURL _ ..#USERENDPOINT _ "/" _ ..#IDUSUARIO
+	Set request.RequestDTO	= requestDTO
+	//
+	Return ..CallBusinesService(..#TARGETOPERATION, request, .response)
+]]></Implementation>
+</Method>
+
+<Method name="TestPostUser">
+<Description>
+Método para a criação de um novo usuário.</Description>
+<ReturnType>%Status</ReturnType>
+<Implementation><![CDATA[
+	#Dim statusCode	As %Status															= ..IsProductionRunning()
+	#Dim request		As cjs.interopway.rest.bo.PostRequest		= ##Class(cjs.interopway.rest.bo.PostRequest).%New()
+	#Dim response		As cjs.interopway.rest.bo.PostResponse	= ""
+	#Dim requestDTO	As cjs.interopway.rest.dto.Request			= ##Class(cjs.interopway.rest.dto.Request).%New()
+	#Dim user				As %DynamicObject												= {}
+	//
+	Set user.email							= "cristiano.js@gmail.com"
+	Set user."first_name"				= "Cristiano José"
+	Set user."last_name"				= "Silva"
+	Set requestDTO.JSONPayload	= user
+	Set requestDTO.URL					= ..#APIURL _ ..#USERENDPOINT
+	Set request.RequestDTO			= requestDTO
+	Set statusCode							= ..CallBusinesService(..#TARGETOPERATION, request, .response)
+	If ($System.Status.IsOK(statusCode))
+	{
+		Set ..UserId = response.ResponseDTO.JSONPayload.id
+	}
+	Return statusCode
+]]></Implementation>
+</Method>
+
+<Method name="TestPutUser">
+<Description>
+Método para a atualização de usuário.</Description>
+<ReturnType>%Status</ReturnType>
+<Implementation><![CDATA[
+	#Dim statusCode	As %Status															= ..IsProductionRunning()
+	#Dim request		As cjs.interopway.rest.bo.PutRequest		= ##Class(cjs.interopway.rest.bo.PutRequest).%New()
+	#Dim response		As cjs.interopway.rest.bo.PutResponse		= ""
+	#Dim requestDTO	As cjs.interopway.rest.dto.Request			= ##Class(cjs.interopway.rest.dto.Request).%New()
+	#Dim user				As %DynamicObject												= {}
+	//
+	Set user."name"							= "Cristiano José"
+	Set user."job"							= "Architect"
+	Set requestDTO.JSONPayload	= user
+	Set requestDTO.URL					= ..#APIURL _ ..#USERENDPOINT _ "/" _ ..#IDUSUARIO
+	Set request.RequestDTO			= requestDTO
+	Set statusCode							= ..CallBusinesService(..#TARGETOPERATION, request, .response)
+	If ($System.Status.IsOK(statusCode))
+	{
+		Set ..UserId = response.ResponseDTO.JSONPayload.id
+	}
+	Return statusCode
+]]></Implementation>
+</Method>
+
+<Method name="TestPatchUser">
+<Description>
+Método para a atualização de usuário.</Description>
+<ReturnType>%Status</ReturnType>
+<Implementation><![CDATA[
+	#Dim statusCode	As %Status															= ..IsProductionRunning()
+	#Dim request		As cjs.interopway.rest.bo.PatchRequest		= ##Class(cjs.interopway.rest.bo.PatchRequest).%New()
+	#Dim response		As cjs.interopway.rest.bo.PatchResponse	= ""
+	#Dim requestDTO	As cjs.interopway.rest.dto.Request			= ##Class(cjs.interopway.rest.dto.Request).%New()
+	#Dim user				As %DynamicObject												= {}
+	//
+	Set user."name"							= "Cristiano Silva"
+	Set user."job"							= "Engineer"
+	Set requestDTO.JSONPayload	= user
+	Set requestDTO.URL					= ..#APIURL _ ..#USERENDPOINT _ "/" _ ..#IDUSUARIO
+	Set request.RequestDTO			= requestDTO
+	Set statusCode							= ..CallBusinesService(..#TARGETOPERATION, request, .response)
+	If ($System.Status.IsOK(statusCode))
+	{
+		Set ..UserId = response.ResponseDTO.JSONPayload.id
+	}
+	Return statusCode
+]]></Implementation>
+</Method>
+
+<Method name="TestDeletehUser">
+<Description>
+Método para a exclusão de usuário.</Description>
+<ReturnType>%Status</ReturnType>
+<Implementation><![CDATA[
+	#Dim statusCode	As %Status															= ..IsProductionRunning()
+	#Dim request		As cjs.interopway.rest.bo.DeleteRequest		= ##Class(cjs.interopway.rest.bo.DeleteRequest).%New()
+	#Dim response		As cjs.interopway.rest.bo.DeleteResponse	= ""
+	#Dim requestDTO	As cjs.interopway.rest.dto.Request			= ##Class(cjs.interopway.rest.dto.Request).%New()
+	#Dim user				As %DynamicObject												= {}
+	//
+	Set requestDTO.URL			= ..#APIURL _ ..#USERENDPOINT _ "/" _ ..#IDUSUARIO
+	Set request.RequestDTO	= requestDTO
+	Set statusCode					= ..CallBusinesService(..#TARGETOPERATION, request, .response)
+	If ($System.Status.IsOK(statusCode))
+	{
+		Set ..UserId = response.ResponseDTO.JSONPayload.id
+	}
+	Return statusCode
+]]></Implementation>
+</Method>
+
+<Method name="CallBusinesService">
+<Description><![CDATA[
+<p style='text-align: justify;'>
+ Dispatch message to Business Service.
+<p style='text-align: justify;'>]]></Description>
+<FormalSpec><![CDATA[targetBusinessOperation:%String,request:cjs.interopway.rest.bo.BaseRequest,&response:cjs.interopway.rest.bo.BaseResponse]]></FormalSpec>
+<Private>1</Private>
+<ReturnType>%Status</ReturnType>
+<Implementation><![CDATA[
+	#Dim statusCode	As %Status						= $System.Status.OK()
+	#Dim exception	As %Exception.General	= ""
+	Try 
+	{
+		Set statusCode = ##Class(EnsLib.Testing.Service).SendTestRequest(targetBusinessOperation, request, .response,, 1)
+		//
+		Do $$$AssertStatusOK(statusCode, "Status Code from GetUser")
+		//
+		#Dim httpStatus As %Integer = $Extract(response.ResponseDTO.HTTPStatus, 1, 1)
+		// Teste se o retorno é HTTPStatus está entre os status 200 é ok
+		Do $$$AssertEquals(httpStatus, 2, "HTTP Status "_ response.ResponseDTO.HTTPStatus)
+	}
+	Catch (exception)
+	{
+		Set statusCode = exception.AsStatus()
+	}
+	Return statusCode
+]]></Implementation>
+</Method>
+
+<Method name="IsProductionRunning">
+<Description><![CDATA[
+<p style='text-align: justify;'>
+	Check if Production is running, in case of Production is stopped I start it.
+</p>]]></Description>
+<Private>1</Private>
+<ReturnType>%Boolean</ReturnType>
+<Implementation><![CDATA[
+	#Dim statusCode As %Status = $System.Status.OK()
+	If ('##Class(Ens.Director).IsProductionRunning())
+	{
+		Do ..LogMessage("Production stopped! Starting...")
+		//
+		Set statusCode = ##Class(Ens.Director).StartProduction()
+		//
+		Do $$$AssertStatusOK(statusCode, "Status start Production!")
+	}
+	Return statusCode
+]]></Implementation>
+</Method>
+</Class>
+</Export>
