@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="IRIS" version="26" zv="IRIS for Windows (x86-64) 2023.1 (Build 229U)" ts="2023-05-26 14:55:19">
+<Class name="cjs.interopway.rest.tests.InteropProduction">
+<Description><![CDATA[
+<p style='text-align: justify;'>
+	<b>2023-05-11 - Cristiano José da Silva</b><br/>
+	Tests set for Business Opeation class: <class>cjs.interopway.rest.bo.Operation</class>
+	<br/><br/>
+	The tests are executed aganist a test API: https://reqres.in/
+</p>]]></Description>
+<Super>%UnitTest.TestProduction</Super>
+<TimeChanged>66620,53382.9697209</TimeChanged>
+<TimeCreated>66606,62118.4311722</TimeCreated>
+
+<Parameter name="PRODUCTION">
+<Description>
+Class name of the production.  It must contain the production class name.</Description>
+<Type>STRING</Type>
+<Default>cjs.interopway.rest.samples.InteropProducion</Default>
+</Parameter>
+
+<Parameter name="TARGETOPERATION">
+<Description>
+Name of target Business Operation</Description>
+<Type>STRING</Type>
+<Default>Reqres REST Operation</Default>
+</Parameter>
+
+<Parameter name="APIURL">
+<Description>
+Base API URL</Description>
+<Type>STRING</Type>
+<Default>https://reqres.in/</Default>
+</Parameter>
+
+<Parameter name="USERENDPOINT">
+<Description>
+Endpoint para tratativa de usuário, é utilizda em todos os verbos, POST, GET, PUT, PATCH, DELETE</Description>
+<Type>STRING</Type>
+<Default>api/users</Default>
+</Parameter>
+
+<Parameter name="IDUSUARIO">
+<Description>
+Id do usuário a ser usado nos testes. É um número baixo porque a base se renova constantemente</Description>
+<Type>INTEGER</Type>
+<Default>1</Default>
+</Parameter>
+
+<Method name="OnBeforeAllTests">
+<Description><![CDATA[
+Run by <B>RunTest</B> once <a href="#OnBeforeAll">before any test methods</a> in the test class are run. Can be used to set up a 
+test environment that will be later cleaned up by <B>OnAfterAllTests</B>. 
+<br>NOTE: OnBeforeAllTests does not currently support skipping tests.  Calls to $$$AssertSkipped in
+OnBeforeAllTests may result in tests appearing to pass rather than being skipped.
+<br><br>Example: Setup and Cleanup of an environment: 
+<pre>
+Method OnBeforeAllTests() As %Status
+{
+	//do setup stuff here
+ 	set ^inputMessage = "input message"
+	quit $$$OK
+}
+Method OnAfterAllTests() As %Status
+{
+	//do clean up stuff here
+	kill ^inputMessage
+	quit $$$OK
+}</pre>
+]]></Description>
+<ReturnType>%Status</ReturnType>
+<Implementation><![CDATA[	Return ..IsProductionRunning()
+]]></Implementation>
+</Method>
+
+<Method name="TestGetUser">
+<Description>
+TestMethod for Business Operation Method Get</Description>
+<ReturnType>%Status</ReturnType>
+<Implementation><![CDATA[
+	#Dim request		As cjs.interopway.rest.bo.GetRequest	= ##Class(cjs.interopway.rest.bo.GetRequest).%New()
+	#Dim response		As cjs.interopway.rest.bo.GetResponse	= ""
+	#Dim requestDTO	As cjs.interopway.rest.dto.Request		= ##Class(cjs.interopway.rest.dto.Request).%New()
+	//
+	Set requestDTO.URL			= ..#APIURL _ ..#USERENDPOINT _ "/" _ ..#IDUSUARIO
+	Set request.RequestDTO	= requestDTO
+	//
+	Return ..CallBusinesService(..#TARGETOPERATION, request, .response)
+]]></Implementation>
+</Method>
+
+<Method name="TestPostUser">
+<Description>
+Método para a criação de um novo usuário.</Description>
+<ReturnType>%Status</ReturnType>
+<Implementation><![CDATA[
+	#Dim statusCode	As %Status															= ..IsProductionRunning()
+	#Dim request		As cjs.interopway.rest.bo.PostRequest		= ##Class(cjs.interopway.rest.bo.PostRequest).%New()
+	#Dim response		As cjs.interopway.rest.bo.PostResponse	= ""
+	#Dim requestDTO	As cjs.interopway.rest.dto.Request			= ##Class(cjs.interopway.rest.dto.Request).%New()
+	#Dim user				As %DynamicObject												= {}
+	//
+	Set user.email							= "cristiano.js@gmail.com"
+	Set user."first_name"				= "Cristiano José"
+	Set user."last_name"				= "Silva"
+	Set requestDTO.JSONPayload	= user
+	Set requestDTO.URL					= ..#APIURL _ ..#USERENDPOINT
+	Set request.RequestDTO			= requestDTO
+	Set statusCode							= ..CallBusinesService(..#TARGETOPERATION, request, .response)
+	If ($System.Status.IsOK(statusCode))
+	{
+		Set ..UserId = response.ResponseDTO.JSONPayload.id
+	}
+	Return statusCode
+]]></Implementation>
+</Method>
+
+<Method name="TestPutUser">
+<Description>
+Método para a atualização de usuário.</Description>
+<ReturnType>%Status</ReturnType>
+<Implementation><![CDATA[
+	#Dim statusCode	As %Status															= ..IsProductionRunning()
+	#Dim request		As cjs.interopway.rest.bo.PutRequest		= ##Class(cjs.interopway.rest.bo.PutRequest).%New()
+	#Dim response		As cjs.interopway.rest.bo.PutResponse		= ""
+	#Dim requestDTO	As cjs.interopway.rest.dto.Request			= ##Class(cjs.interopway.rest.dto.Request).%New()
+	#Dim user				As %DynamicObject												= {}
+	//
+	Set user."name"							= "Cristiano José"
+	Set user."job"							= "Architect"
+	Set requestDTO.JSONPayload	= user
+	Set requestDTO.URL					= ..#APIURL _ ..#USERENDPOINT _ "/" _ ..#IDUSUARIO
+	Set request.RequestDTO			= requestDTO
+	Set statusCode							= ..CallBusinesService(..#TARGETOPERATION, request, .response)
+	If ($System.Status.IsOK(statusCode))
+	{
+		Set ..UserId = response.ResponseDTO.JSONPayload.id
+	}
+	Return statusCode
+]]></Implementation>
+</Method>
+
+<Method name="TestPatchUser">
+<Description>
+Método para a atualização de usuário.</Description>
+<ReturnType>%Status</ReturnType>
+<Implementation><![CDATA[
+	#Dim statusCode	As %Status															= ..IsProductionRunning()
+	#Dim request		As cjs.interopway.rest.bo.PatchRequest		= ##Class(cjs.interopway.rest.bo.PatchRequest).%New()
+	#Dim response		As cjs.interopway.rest.bo.PatchResponse	= ""
+	#Dim requestDTO	As cjs.interopway.rest.dto.Request			= ##Class(cjs.interopway.rest.dto.Request).%New()
+	#Dim user				As %DynamicObject												= {}
+	//
+	Set user."name"							= "Cristiano Silva"
+	Set user."job"							= "Engineer"
+	Set requestDTO.JSONPayload	= user
+	Set requestDTO.URL					= ..#APIURL _ ..#USERENDPOINT _ "/" _ ..#IDUSUARIO
+	Set request.RequestDTO			= requestDTO
+	Set statusCode							= ..CallBusinesService(..#TARGETOPERATION, request, .response)
+	If ($System.Status.IsOK(statusCode))
+	{
+		Set ..UserId = response.ResponseDTO.JSONPayload.id
+	}
+	Return statusCode
+]]></Implementation>
+</Method>
+
+<Method name="TestDeletehUser">
+<Description>
+Método para a exclusão de usuário.</Description>
+<ReturnType>%Status</ReturnType>
+<Implementation><![CDATA[
+	#Dim statusCode	As %Status															= ..IsProductionRunning()
+	#Dim request		As cjs.interopway.rest.bo.DeleteRequest		= ##Class(cjs.interopway.rest.bo.DeleteRequest).%New()
+	#Dim response		As cjs.interopway.rest.bo.DeleteResponse	= ""
+	#Dim requestDTO	As cjs.interopway.rest.dto.Request			= ##Class(cjs.interopway.rest.dto.Request).%New()
+	#Dim user				As %DynamicObject												= {}
+	//
+	Set requestDTO.URL			= ..#APIURL _ ..#USERENDPOINT _ "/" _ ..#IDUSUARIO
+	Set request.RequestDTO	= requestDTO
+	Set statusCode					= ..CallBusinesService(..#TARGETOPERATION, request, .response)
+	If ($System.Status.IsOK(statusCode))
+	{
+		Set ..UserId = response.ResponseDTO.JSONPayload.id
+	}
+	Return statusCode
+]]></Implementation>
+</Method>
+
+<Method name="CallBusinesService">
+<Description><![CDATA[
+<p style='text-align: justify;'>
+ Dispatch message to Business Service.
+<p style='text-align: justify;'>]]></Description>
+<FormalSpec><![CDATA[targetBusinessOperation:%String,request:cjs.interopway.rest.bo.BaseRequest,&response:cjs.interopway.rest.bo.BaseResponse]]></FormalSpec>
+<Private>1</Private>
+<ReturnType>%Status</ReturnType>
+<Implementation><![CDATA[
+	#Dim statusCode	As %Status						= $System.Status.OK()
+	#Dim exception	As %Exception.General	= ""
+	Try 
+	{
+		Set statusCode = ##Class(EnsLib.Testing.Service).SendTestRequest(targetBusinessOperation, request, .response,, 1)
+		//
+		Do $$$AssertStatusOK(statusCode, "Status Code from GetUser")
+		//
+		#Dim httpStatus As %Integer = $Extract(response.ResponseDTO.HTTPStatus, 1, 1)
+		// Teste se o retorno é HTTPStatus está entre os status 200 é ok
+		Do $$$AssertEquals(httpStatus, 2, "HTTP Status "_ response.ResponseDTO.HTTPStatus)
+	}
+	Catch (exception)
+	{
+		Set statusCode = exception.AsStatus()
+	}
+	Return statusCode
+]]></Implementation>
+</Method>
+
+<Method name="IsProductionRunning">
+<Description><![CDATA[
+<p style='text-align: justify;'>
+	Check if Production is running, in case of Production is stopped I start it.
+</p>]]></Description>
+<Private>1</Private>
+<ReturnType>%Boolean</ReturnType>
+<Implementation><![CDATA[
+	#Dim statusCode As %Status = $System.Status.OK()
+	If ('##Class(Ens.Director).IsProductionRunning())
+	{
+		Do ..LogMessage("Production stopped! Starting...")
+		//
+		Set statusCode = ##Class(Ens.Director).StartProduction()
+		//
+		Do $$$AssertStatusOK(statusCode, "Status start Production!")
+	}
+	Return statusCode
+]]></Implementation>
+</Method>
+</Class>
+</Export>
