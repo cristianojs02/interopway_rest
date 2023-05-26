@@ -10,7 +10,7 @@
 /// 		<li><class>cjs.interopway.rest.bo.PutResponse</class> - Response of a call REST using HTTP PUT<li>
 /// 	</ul>
 /// </p>
-Class cjs.interopway.rest.bo.BaseResponse Extends (%Persistent, Ens.Response)
+Class cjs.interopway.rest.bo.BaseResponse Extends (%Persistent, Ens.Response) [ Abstract ]
 {
 
 Property ResponseDTO As cjs.interopway.rest.dto.Response;
