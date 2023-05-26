@@ -16,7 +16,7 @@ Class cjs.interopway.rest.bo.BaseResponse Extends (%Persistent, Ens.Response)
 Property ResponseDTO As cjs.interopway.rest.dto.Response;
 
 /// Subclass responsablity
-Method DoSpecifAction(args...)
+Method DoSpecificAction(args...)
 {
 }
 

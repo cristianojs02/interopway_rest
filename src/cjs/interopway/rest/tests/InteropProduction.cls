@@ -77,7 +77,7 @@ Method TestPostUser() As %Status
 	Set statusCode							= ..CallBusinesService(..#TARGETOPERATION, request, .response)
 	If ($System.Status.IsOK(statusCode))
 	{
-		Set ..UserId = response.ResponseDTO.JSONPayload.id
+		Do ..LogMessage("Usuário criado com uscesso: " _  response.ResponseDTO.JSONPayload.id)
 	}
 	Return statusCode
 }
@@ -96,12 +96,8 @@ Method TestPutUser() As %Status
 	Set requestDTO.JSONPayload	= user
 	Set requestDTO.URL					= ..#APIURL _ ..#USERENDPOINT _ "/" _ ..#IDUSUARIO
 	Set request.RequestDTO			= requestDTO
-	Set statusCode							= ..CallBusinesService(..#TARGETOPERATION, request, .response)
-	If ($System.Status.IsOK(statusCode))
-	{
-		Set ..UserId = response.ResponseDTO.JSONPayload.id
-	}
-	Return statusCode
+	//
+	Return ..CallBusinesService(..#TARGETOPERATION, request, .response)
 }
 
 /// Método para a atualização de usuário.
@@ -118,16 +114,12 @@ Method TestPatchUser() As %Status
 	Set requestDTO.JSONPayload	= user
 	Set requestDTO.URL					= ..#APIURL _ ..#USERENDPOINT _ "/" _ ..#IDUSUARIO
 	Set request.RequestDTO			= requestDTO
-	Set statusCode							= ..CallBusinesService(..#TARGETOPERATION, request, .response)
-	If ($System.Status.IsOK(statusCode))
-	{
-		Set ..UserId = response.ResponseDTO.JSONPayload.id
-	}
-	Return statusCode
+	//
+	Return ..CallBusinesService(..#TARGETOPERATION, request, .response)
 }
 
 /// Método para a exclusão de usuário.
-Method TestDeletehUser() As %Status
+Method TestDeleteUser() As %Status
 {
 	#Dim statusCode	As %Status															= ..IsProductionRunning()
 	#Dim request		As cjs.interopway.rest.bo.DeleteRequest		= ##Class(cjs.interopway.rest.bo.DeleteRequest).%New()
@@ -137,12 +129,8 @@ Method TestDeletehUser() As %Status
 	//
 	Set requestDTO.URL			= ..#APIURL _ ..#USERENDPOINT _ "/" _ ..#IDUSUARIO
 	Set request.RequestDTO	= requestDTO
-	Set statusCode					= ..CallBusinesService(..#TARGETOPERATION, request, .response)
-	If ($System.Status.IsOK(statusCode))
-	{
-		Set ..UserId = response.ResponseDTO.JSONPayload.id
-	}
-	Return statusCode
+	//
+	Return ..CallBusinesService(..#TARGETOPERATION, request, .response)
 }
 
 /// <p style='text-align: justify;'>
