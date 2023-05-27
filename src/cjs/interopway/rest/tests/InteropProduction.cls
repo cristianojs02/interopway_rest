@@ -62,7 +62,11 @@ Method TestGetUser() As %Status
 /// Método para a criação de um novo usuário.
 Method TestPostUser() As %Status
 {
-	#Dim statusCode	As %Status															= ..IsProductionRunning()
+	#Dim statusCode	As %Status = ..IsProductionRunning()
+	If ($System.Status.IsError(statusCode))
+	{
+		Return statusCode
+	}
 	#Dim request		As cjs.interopway.rest.bo.PostRequest		= ##Class(cjs.interopway.rest.bo.PostRequest).%New()
 	#Dim response		As cjs.interopway.rest.bo.PostResponse	= ""
 	#Dim requestDTO	As cjs.interopway.rest.dto.Request			= ##Class(cjs.interopway.rest.dto.Request).%New()
@@ -85,7 +89,11 @@ Method TestPostUser() As %Status
 /// Método para a atualização de usuário.
 Method TestPutUser() As %Status
 {
-	#Dim statusCode	As %Status															= ..IsProductionRunning()
+	#Dim statusCode	As %Status = ..IsProductionRunning()
+	If ($System.Status.IsError(statusCode))
+	{
+		Return statusCode
+	}
 	#Dim request		As cjs.interopway.rest.bo.PutRequest		= ##Class(cjs.interopway.rest.bo.PutRequest).%New()
 	#Dim response		As cjs.interopway.rest.bo.PutResponse		= ""
 	#Dim requestDTO	As cjs.interopway.rest.dto.Request			= ##Class(cjs.interopway.rest.dto.Request).%New()
@@ -103,7 +111,11 @@ Method TestPutUser() As %Status
 /// Método para a atualização de usuário.
 Method TestPatchUser() As %Status
 {
-	#Dim statusCode	As %Status															= ..IsProductionRunning()
+	#Dim statusCode	As %Status = ..IsProductionRunning()
+	If ($System.Status.IsError(statusCode))
+	{
+		Return statusCode
+	}
 	#Dim request		As cjs.interopway.rest.bo.PatchRequest		= ##Class(cjs.interopway.rest.bo.PatchRequest).%New()
 	#Dim response		As cjs.interopway.rest.bo.PatchResponse	= ""
 	#Dim requestDTO	As cjs.interopway.rest.dto.Request			= ##Class(cjs.interopway.rest.dto.Request).%New()
@@ -121,11 +133,14 @@ Method TestPatchUser() As %Status
 /// Método para a exclusão de usuário.
 Method TestDeleteUser() As %Status
 {
-	#Dim statusCode	As %Status															= ..IsProductionRunning()
+	#Dim statusCode	As %Status = ..IsProductionRunning()
+	If ($System.Status.IsError(statusCode))
+	{
+		Return statusCode
+	}
 	#Dim request		As cjs.interopway.rest.bo.DeleteRequest		= ##Class(cjs.interopway.rest.bo.DeleteRequest).%New()
 	#Dim response		As cjs.interopway.rest.bo.DeleteResponse	= ""
 	#Dim requestDTO	As cjs.interopway.rest.dto.Request			= ##Class(cjs.interopway.rest.dto.Request).%New()
-	#Dim user				As %DynamicObject												= {}
 	//
 	Set requestDTO.URL			= ..#APIURL _ ..#USERENDPOINT _ "/" _ ..#IDUSUARIO
 	Set request.RequestDTO	= requestDTO
