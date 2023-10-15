@@ -29,7 +29,7 @@ In this package we find 3 classes:
 
 The Request/Response messages are defined in the package **cjs.interopway.rest.bo.** In the class diagram below we present only the most generic messages in the hierarchy that define the standard structure.
 
-![BaseMessages](/images/cjs_interopway_rest_bo_BaseRequestCcjs_interopway_rest_bo_BaseResponse.png)
+![BaseMessages](/images/cjs_interopway_rest_bo_BaseRequest-cjs_interopway_rest_bo_BaseResponse.png)
 
 There are 12 message classes in this package.
 

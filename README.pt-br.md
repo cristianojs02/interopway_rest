@@ -29,7 +29,7 @@ Neste pacote encontramos 3 classes:
 
 As mensagens de _Request/Response_ estão definidas no pacote **cjs.interopway.rest.bo.** No diagrama de classes abaixo apresentamos apenas as mensagens mais genéricas na hierarquia que definem a estrutura padrão.
 
-![BaseMessages](/images/cjs_interopway_rest_bo_BaseRequestCcjs_interopway_rest_bo_BaseResponse.png)
+![BaseMessages](/images/cjs_interopway_rest_bo_BaseRequest-cjs_interopway_rest_bo_BaseResponse.png)
 
 Existem 12 classes de mensagens neste pacote. 
 
