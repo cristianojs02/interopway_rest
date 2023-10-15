@@ -29,7 +29,7 @@ In this package we find 3 classes:
 
 The Request/Response messages are defined in the package **cjs.interopway.rest.bo.** In the class diagram below we present only the most generic messages in the hierarchy that define the standard structure.
 
-![BaseMessages](/images/images/cjs_interopway_rest_bo_BaseRequestCcjs_interopway_rest_bo_BaseResponse.png)
+![BaseMessages](/images/cjs_interopway_rest_bo_BaseRequestCcjs_interopway_rest_bo_BaseResponse.png)
 
 There are 12 message classes in this package.
 
@@ -48,7 +48,7 @@ There are 12 message classes in this package.
 
 ## Business Operation
 
-![Operation](/images/images/cjs_interopway_rest_bo_Operation.png)
+![Operation](/images/cjs_interopway_rest_bo_Operation.png)
 
 The class  **cjs.interopway.rest.bo.Operation** extends the default Business Operation **EnsLib.REST.Operation** which has some utility methods and is already configured with then **EnsLib.HTTP.OutboundAdapter** adapter.
 
@@ -107,7 +107,7 @@ Access the URL presented at the end of the execution and see the test results.
 
 If everything went well, it should look something like the image below.
 
-![unitTests](/images/images/unitTests.png)
+![unitTests](/images/unitTests.png)
 
 Below is the code for the **TestPostUser** and **CallBusinessService** method:
 

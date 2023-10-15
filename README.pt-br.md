@@ -29,7 +29,7 @@ Neste pacote encontramos 3 classes:
 
 As mensagens de _Request/Response_ estão definidas no pacote **cjs.interopway.rest.bo.** No diagrama de classes abaixo apresentamos apenas as mensagens mais genéricas na hierarquia que definem a estrutura padrão.
 
-![BaseMessages](/images/images/cjs_interopway_rest_bo_BaseRequestCcjs_interopway_rest_bo_BaseResponse.png)
+![BaseMessages](/images/cjs_interopway_rest_bo_BaseRequestCcjs_interopway_rest_bo_BaseResponse.png)
 
 Existem 12 classes de mensagens neste pacote. 
 
@@ -48,7 +48,7 @@ Existem 12 classes de mensagens neste pacote. 
 
 ## Business Operation
 
-![Operation](/images/images/cjs_interopway_rest_bo_Operation.png)
+![Operation](/images/cjs_interopway_rest_bo_Operation.png)
 
 A classe  **cjs.interopway.rest.bo.Operation** estende o Business Operation padrão  **EnsLib.REST.Operation** que possui alguns métodos utilitários e já vem configurado com o adaptador **EnsLib.HTTP.OutboundAdapter.**
 
