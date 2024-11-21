@@ -2,6 +2,8 @@
 ---
 # Interopway REST
 
+Teste Git remote
+
 Quantas vezes nos deparamos em reconstruir, copiar, colar adpatar, _Businesss Operations_ que fazem chamadas para serviços REST, e apenas adaptamos uma ou outra parte do código final. Isso incomada e muito. Para resolver esse nosso incoveniente apresento para vocês Interopway REST, um conjunto de classes (um micro framework) que nos permite apenas adicionar o _Business Operation à Production_ e  utilizar.
 
 Vamos entender como isso funciona.
